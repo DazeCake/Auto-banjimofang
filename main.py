@@ -1,13 +1,13 @@
+#!/usr/bin/python3
+
 import requests
 import random
 import time
+import csv
 import re
-import apscheduler
 from datetime import datetime
+import os
 from apscheduler.schedulers.blocking import BlockingScheduler
-
-phone = ""
-pwd = ""
 
 
 def getcookie(url):
@@ -50,10 +50,6 @@ def auto(phone, pwd):
         "password": pwd
     }
     res = requests.post(login_url, headers=headers, data=data)
-    if res.status_code == 200:
-        print("模拟登陆成功！")
-    else:
-        print("模拟登陆失败！")
 
     # 获取新cookie
     new_cookie = res.headers.get("Set-Cookie").split(";")[0]
@@ -73,28 +69,28 @@ def auto(phone, pwd):
         "t3": str(temp())
     }
     resNew = requests.post(temp_url, headers=headers, data=data)
-    if resNew.status_code == 200:
-        print("模拟登陆成功！")
-    else:
-        print("模拟登陆失败！")
     if "提交成功" in resNew.text:
         print("体温提交成功！")
-        print(time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()))
+        print (time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()))
     else:
         print("体温提交失败！")
         print(time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()))
-
+        print(phone)
 
 def call_auto():
-    auto(phone, pwd)
+    with open("account.csv", "r", encoding="utf-8-sig") as f:
+        reader = csv.DictReader(f)
+        column = [row for row in reader]
+
+    for index in range(len(column)):
+        auto(column[index]["phone"], column[index]["pwd"])
 
 
-# 定时提交
 if __name__ == '__main__':
     scheduler = BlockingScheduler()
     scheduler.add_job(call_auto, 'cron', hour='6')
-    scheduler.add_job(call_auto, 'cron', hour='12')
-    scheduler.add_job(call_auto, 'cron', hour='15', minute='1')
+    scheduler.add_job(call_auto, 'cron', hour='12', minute='0')
+    scheduler.add_job(call_auto, 'cron', hour='17', minute='1')
 
     try:
         scheduler.start()
