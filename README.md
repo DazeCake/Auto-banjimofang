@@ -4,11 +4,20 @@
 
 ## 使用方法
 
+### Python
+请查看`python`
+
 安装python
 
 > 您可能需要安装requests库
 
+
 clone本项目，下载并添加`account.csv`中的`phone`和`pwd`的变量值，分别填入你的手机号和密码，然后运行`main.py`即可，也可以通过`add.py`来增加登陆账号
+### WEB
+请查看`web`
+
+### SpringBoot
+请查看`src`
 
 ## 重要！
 一开始使用的微信登录，不知道密码的话，请前往[重置密码](http://banjimofang.com/resetpwd/student "重置密码")进行设置。登陆手机号就是你的微信手机号
