@@ -35,7 +35,7 @@ def login(phone, pwd):
     # 模拟登陆
     cookies = d_cookie.get("cookies")
     token = d_cookie.get("token")
-    spost = "_token=" + token + "&username=" + phone + "&password=" + pwd
+    spost = "_token=" + str(token) + "&username=" + str(phone) + "&password=" + str(pwd)
     headers = {
         "Accept-Encoding": "gzip, deflate",
         "Accept-Language": "zh-CN,zh;q=0.8",
